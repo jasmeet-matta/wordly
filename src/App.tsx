@@ -1,6 +1,7 @@
-import {useState} from "react"
+import axios from "axios"
 import {GameBoard} from "@/components/GameBoard/GameBoard"
 import {Keyboard} from "@/components/Keyboard/Keyboard"
+import {useState} from "react"
 
 function App() {
     const WORD_LENGTH = 5
@@ -8,6 +9,19 @@ function App() {
 
     const [guesses, setGuesses] = useState<string[]>([])
     const [currentGuess, setCurrentGuess] = useState("")
+    const [error, setError] = useState<string | null>(null)
+
+    const isValidWord = async (word: string) => {
+        try {
+            const res = await axios.get(
+                `https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`
+            )
+            return res.status === 200
+        } catch {
+            return false
+        }
+    }
+
     type LetterStatus = "correct" | "present" | "absent"
     const TARGET_WORD = "REACT";
 
@@ -30,11 +44,19 @@ function App() {
         {}
     )
 
-    const onKeyPress = (key: string) => {
+    const onKeyPress = async (key: string) => {
         if (key === "ENTER") {
             if (currentGuess.length !== WORD_LENGTH) return
             if (guesses.length >= MAX_GUESSES) return
 
+            const valid = await isValidWord(currentGuess)
+
+            if (!valid) {
+                setError("Not a valid word")
+                return
+            }
+
+            setError(null)
             setGuesses(prev => [...prev, currentGuess])
             setCurrentGuess("")
             return
@@ -42,10 +64,12 @@ function App() {
 
         if (key === "⌫") {
             setCurrentGuess((prev) => prev.slice(0, -1))
+            setError(null)
             return
         }
 
         if (currentGuess.length < WORD_LENGTH) {
+            setError(null)
             setCurrentGuess((prev) => prev + key)
         }
     }
@@ -54,7 +78,7 @@ function App() {
         <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
             <main className="w-full max-w-md px-4">
                 <h1 className="text-3xl font-bold text-center mb-6">
-                    wordly
+                    Wordly
                 </h1>
 
                 <GameBoard
@@ -63,6 +87,11 @@ function App() {
                     wordLength={WORD_LENGTH}
                     maxGuesses={MAX_GUESSES}
                 />
+                {error && (
+                    <p className="text-md text-red-400 font-medium text-center mt-2 animate">
+                        {error}
+                    </p>
+                )}
 
                 <Keyboard
                     onKeyPress={onKeyPress}
