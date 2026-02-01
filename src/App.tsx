@@ -1,6 +1,6 @@
-import { useState } from "react"
-import { GameBoard } from "@/components/GameBoard/GameBoard"
-import { Keyboard } from "@/components/Keyboard/Keyboard"
+import {useState} from "react"
+import {GameBoard} from "@/components/GameBoard/GameBoard"
+import {Keyboard} from "@/components/Keyboard/Keyboard"
 
 function App() {
     const WORD_LENGTH = 5
@@ -8,6 +8,27 @@ function App() {
 
     const [guesses, setGuesses] = useState<string[]>([])
     const [currentGuess, setCurrentGuess] = useState("")
+    type LetterStatus = "correct" | "present" | "absent"
+    const TARGET_WORD = "REACT";
+
+    const letterStatuses = guesses.reduce<Record<string, LetterStatus>>(
+        (acc, guess) => {
+            guess.split("").forEach((letter, index) => {
+                if (TARGET_WORD[index] === letter) {
+                    acc[letter] = "correct"
+                } else if (
+                    TARGET_WORD.includes(letter) &&
+                    acc[letter] !== "correct"
+                ) {
+                    acc[letter] = "present"
+                } else if (!acc[letter]) {
+                    acc[letter] = "absent"
+                }
+            })
+            return acc
+        },
+        {}
+    )
 
     const onKeyPress = (key: string) => {
         if (key === "ENTER") {
@@ -43,7 +64,11 @@ function App() {
                     maxGuesses={MAX_GUESSES}
                 />
 
-                <Keyboard onKeyPress={onKeyPress} />
+                <Keyboard
+                    onKeyPress={onKeyPress}
+                    letterStatuses={letterStatuses}
+                />
+
             </main>
         </div>
     )
