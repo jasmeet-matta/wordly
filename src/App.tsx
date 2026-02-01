@@ -1,4 +1,5 @@
-import { GameBoard } from "@/components/GameBoard/GameBoard"
+import {GameBoard} from "@/components/GameBoard/GameBoard"
+import {Keyboard} from "@/components/Keyboard/Keyboard.tsx";
 
 function App() {
     return (
@@ -8,6 +9,7 @@ function App() {
                     Wordly
                 </h1>
                 <GameBoard />
+                <Keyboard />
             </main>
         </div>
     )
