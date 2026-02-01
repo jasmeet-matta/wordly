@@ -1,5 +1,6 @@
 import axios from "axios"
 import {GameBoard} from "@/components/GameBoard/GameBoard"
+import {getRowStatuses, type TileStatus} from "@/utils/getRowStatuses"
 import {Keyboard} from "@/components/Keyboard/Keyboard"
 import {useState} from "react"
 
@@ -22,23 +23,23 @@ function App() {
         }
     }
 
-    type LetterStatus = "correct" | "present" | "absent"
-    const TARGET_WORD = "REACT";
-
-    const letterStatuses = guesses.reduce<Record<string, LetterStatus>>(
+    const TARGET_WORD = "APPLE";
+    const letterStatuses = guesses.reduce<Record<string, TileStatus>>(
         (acc, guess) => {
-            guess.split("").forEach((letter, index) => {
-                if (TARGET_WORD[index] === letter) {
-                    acc[letter] = "correct"
-                } else if (
-                    TARGET_WORD.includes(letter) &&
-                    acc[letter] !== "correct"
+            const statuses = getRowStatuses(guess, TARGET_WORD)
+
+            guess.split("").forEach((letter, i) => {
+                const status = statuses[i]
+
+                if (
+                    status === "correct" ||
+                    (status === "present" && acc[letter] !== "correct") ||
+                    (!acc[letter] && status === "absent")
                 ) {
-                    acc[letter] = "present"
-                } else if (!acc[letter]) {
-                    acc[letter] = "absent"
+                    acc[letter] = status
                 }
             })
+
             return acc
         },
         {}

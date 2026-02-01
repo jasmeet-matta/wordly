@@ -1,4 +1,5 @@
 import {Tile} from "./Tile"
+import {getRowStatuses} from "@/utils/getRowStatuses"
 
 type GameBoardProps = {
     guesses: string[]
@@ -6,21 +7,7 @@ type GameBoardProps = {
     wordLength: number
     maxGuesses: number
 }
-const TARGET_WORD = "REACT";
-
-const getTileStatus = (
-    letter: string,
-    index: number
-) => {
-    if (!letter) return "empty"
-
-    if (TARGET_WORD[index] === letter) return "correct"
-
-    if (TARGET_WORD.includes(letter)) return "present"
-
-    return "absent"
-}
-
+const TARGET_WORD = "APPLE";
 
 export function GameBoard({
                               guesses,
@@ -43,15 +30,14 @@ export function GameBoard({
                                     : guess[colIndex] ?? ""
 
                             const isSubmittedRow = rowIndex < guesses.length
+                            const statuses = isSubmittedRow
+                                ? getRowStatuses(guess, TARGET_WORD)
+                                : []
 
                             return <Tile
                                 key={colIndex}
                                 value={letter}
-                                status={
-                                    isSubmittedRow
-                                        ? getTileStatus(letter, colIndex)
-                                        : "empty"
-                                }
+                                status={statuses[colIndex] ?? "empty"}
                             />
 
                         })}
