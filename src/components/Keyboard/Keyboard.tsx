@@ -25,11 +25,13 @@ export function Keyboard({onKeyPress, letterStatuses}: KeyboardProps) {
                 >
                     {row.map((key) => {
                         const status = letterStatuses[key]
+                        const isDisabled = status === "absent"
 
                         return (
                             <button
                                 key={key}
                                 onClick={() => onKeyPress(key)}
+                                disabled={isDisabled}
                                 className={`
                                 h-12
                                 ${key === "ENTER" ? "min-w-[4rem]" : "min-w-[2.5rem]"}
