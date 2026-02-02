@@ -34,11 +34,11 @@ export function Keyboard({onKeyPress, letterStatuses}: KeyboardProps) {
                                 disabled={isDisabled}
                                 className={`
                                 h-12
-                                ${key === "ENTER" ? "min-w-[4rem]" : "min-w-[2.5rem]"}
+                                ${key === "ENTER" ? "min-w-[3.8rem]" : "min-w-[1.9rem]"}
                                 px-2
                                 rounded-md
                                 ${status ? statusStyles[status] : "bg-muted"}
-                                text-sm font-semibold
+                                text-xs font-bold
                                 ${status ? statusStyles[status] : "bg-muted hover:bg-primary/10"}
                                 transition
                             `}
