@@ -23,7 +23,7 @@ function App() {
         }
     }
 
-    const TARGET_WORD = "APPLE";
+    const TARGET_WORD = "BRAVE";
     const letterStatuses = guesses.reduce<Record<string, TileStatus>>(
         (acc, guess) => {
             const statuses = getRowStatuses(guess, TARGET_WORD)
