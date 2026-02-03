@@ -21,27 +21,30 @@ export function Keyboard({onKeyPress, letterStatuses}: KeyboardProps) {
             {ROWS.map((row, rowIndex) => (
                 <div
                     key={rowIndex}
-                    className="flex justify-center gap-2"
+                    className="flex w-full gap-2 px-1"
                 >
                     {row.map((key) => {
                         const status = letterStatuses[key]
                         const isDisabled = status === "absent"
+                        const isSpecialKey = key === "ENTER" || key === "⌫"
 
                         return (
                             <button
                                 key={key}
-                                onClick={() => onKeyPress(key)}
                                 disabled={isDisabled}
+                                onClick={() => {
+                                    if (isDisabled) return
+                                    onKeyPress(key)
+                                }}
                                 className={`
-                                h-12
-                                ${key === "ENTER" ? "min-w-[3.8rem]" : "min-w-[1.7rem]"}
-                                px-2
-                                rounded-md
-                                ${status ? statusStyles[status] : "bg-muted"}
-                                text-xs font-bold
-                                ${status ? statusStyles[status] : "bg-muted hover:bg-primary/10"}
-                                transition
-                            `}
+                                    h-12
+                                    ${isSpecialKey ? "flex-[1.5]" : "flex-1"}
+                                    rounded-md
+                                    text-xs font-bold
+                                    transition
+                                    ${status ? statusStyles[status] : "bg-muted hover:bg-primary/10"}
+                                    ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}
+                                `}
                             >
                                 {key}
                             </button>
