@@ -3,6 +3,7 @@ import {GameBoard} from "@/components/GameBoard/GameBoard"
 import {getRowStatuses, type TileStatus} from "@/utils/getRowStatuses"
 import {Keyboard} from "@/components/Keyboard/Keyboard"
 import {useState} from "react"
+import {useEffect} from "react"
 
 function App() {
     const WORD_LENGTH = 5
@@ -22,6 +23,14 @@ function App() {
             return false
         }
     }
+
+    useEffect(() => {
+        // Warm up dictionary API to avoid cold start lag
+        axios
+            .get("https://api.dictionaryapi.dev/api/v2/entries/en/hello")
+            .catch(() => {})
+    }, [])
+
 
     const TARGET_WORD = "CLOTH";
     const letterStatuses = guesses.reduce<Record<string, TileStatus>>(
