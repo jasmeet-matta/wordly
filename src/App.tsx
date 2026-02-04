@@ -12,6 +12,8 @@ function App() {
     const [guesses, setGuesses] = useState<string[]>([])
     const [currentGuess, setCurrentGuess] = useState("")
     const [error, setError] = useState<string | null>(null)
+    const [targetWordFound, setTargetWordFound] = useState(false)
+    const TARGET_WORD = "DRUNK";
 
     const isValidWord = async (word: string) => {
         try {
@@ -32,7 +34,6 @@ function App() {
     }, [])
 
 
-    const TARGET_WORD = "DRUNK";
     const letterStatuses = guesses.reduce<Record<string, TileStatus>>(
         (acc, guess) => {
             const statuses = getRowStatuses(guess, TARGET_WORD)
@@ -66,6 +67,7 @@ function App() {
                 return
             }
 
+            setTargetWordFound(TARGET_WORD === currentGuess)
             setError(null)
             setGuesses(prev => [...prev, currentGuess])
             setCurrentGuess("")
@@ -106,6 +108,7 @@ function App() {
                 <Keyboard
                     onKeyPress={onKeyPress}
                     letterStatuses={letterStatuses}
+                    disableKeyboard={targetWordFound}
                 />
 
             </main>

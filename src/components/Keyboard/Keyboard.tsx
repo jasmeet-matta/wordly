@@ -7,9 +7,10 @@ type LetterStatus = "correct" | "present" | "absent"
 type KeyboardProps = {
     onKeyPress: (key: string) => void
     letterStatuses: Record<string, LetterStatus>
+    disableKeyboard: boolean
 }
 
-export function Keyboard({onKeyPress, letterStatuses}: KeyboardProps) {
+export function Keyboard({onKeyPress, letterStatuses, disableKeyboard}: KeyboardProps) {
     const statusStyles = {
         correct: "bg-green-500 text-white",
         present: "bg-yellow-500 text-white",
@@ -25,7 +26,7 @@ export function Keyboard({onKeyPress, letterStatuses}: KeyboardProps) {
                 >
                     {row.map((key) => {
                         const status = letterStatuses[key]
-                        const isDisabled = status === "absent"
+                        const isDisabled = status === "absent" || disableKeyboard
                         const isSpecialKey = key === "ENTER" || key === "⌫"
 
                         return (
