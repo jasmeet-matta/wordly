@@ -32,7 +32,7 @@ function App() {
     }, [])
 
 
-    const TARGET_WORD = "CLOTH";
+    const TARGET_WORD = "DRUNK";
     const letterStatuses = guesses.reduce<Record<string, TileStatus>>(
         (acc, guess) => {
             const statuses = getRowStatuses(guess, TARGET_WORD)
