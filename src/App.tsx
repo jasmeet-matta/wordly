@@ -12,16 +12,18 @@ function App() {
     const [guesses, setGuesses] = useState<string[]>([])
     const [currentGuess, setCurrentGuess] = useState("")
     const [error, setError] = useState<string | null>(null)
-    const [targetWordFound, setTargetWordFound] = useState(false)
-    const TARGET_WORD = "EIGHT";
+    const [disableKeyboard, setDisabledState] = useState(false)
+    const TARGET_WORD = "FIERY";
 
     const isValidWord = async (word: string) => {
         try {
             const res = await axios.get(
                 `https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`
             )
+            setDisabledState(false);
             return res.status === 200
         } catch {
+            setDisabledState(false);
             return false
         }
     }
@@ -59,6 +61,7 @@ function App() {
         if (key === "ENTER") {
             if (currentGuess.length !== WORD_LENGTH) return
             if (guesses.length >= MAX_GUESSES) return
+            setDisabledState(true)
 
             const valid = await isValidWord(currentGuess)
 
@@ -67,7 +70,7 @@ function App() {
                 return
             }
 
-            setTargetWordFound(TARGET_WORD === currentGuess)
+            setDisabledState(TARGET_WORD === currentGuess)
             setError(null)
             setGuesses(prev => [...prev, currentGuess])
             setCurrentGuess("")
@@ -89,7 +92,7 @@ function App() {
     return (
         <div className="min-h-dvh bg-background text-foreground flex items-center justify-center">
             <main className="w-full max-w-md px-4">
-                <h1 className="text-3xl font-bold text-center mb-6">
+                <h1 className="text-4xl font-bold text-center tracking-wider p-2 mb-3 text-transparent bg-clip-text bg-gradient-to-r to-amber-600 from-amber-100">
                     Wordly
                 </h1>
 
@@ -108,7 +111,7 @@ function App() {
                 <Keyboard
                     onKeyPress={onKeyPress}
                     letterStatuses={letterStatuses}
-                    disableKeyboard={targetWordFound}
+                    disableKeyboard={disableKeyboard}
                 />
 
             </main>
