@@ -7,7 +7,7 @@ type GameBoardProps = {
     wordLength: number
     maxGuesses: number
 }
-const TARGET_WORD = "FIERY";
+const TARGET_WORD = "GRAVY";
 
 export function GameBoard({
                               guesses,
