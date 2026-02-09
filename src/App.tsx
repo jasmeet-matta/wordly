@@ -13,7 +13,7 @@ function App() {
     const [currentGuess, setCurrentGuess] = useState("")
     const [error, setError] = useState<string | null>(null)
     const [disableKeyboard, setDisabledState] = useState(false)
-    const TARGET_WORD = "HEART";
+    const TARGET_WORD = "IMAGE";
 
     const isValidWord = async (word: string) => {
         try {
