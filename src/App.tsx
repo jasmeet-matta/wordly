@@ -101,6 +101,7 @@ function App() {
                     currentGuess={currentGuess}
                     wordLength={WORD_LENGTH}
                     maxGuesses={MAX_GUESSES}
+                    targetWord={TARGET_WORD}
                 />
                 {error && (
                     <p className="text-md text-red-400 font-medium text-center mt-2 animate">

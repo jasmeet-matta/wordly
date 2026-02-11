@@ -6,14 +6,15 @@ type GameBoardProps = {
     currentGuess: string
     wordLength: number
     maxGuesses: number
+    targetWord: string
 }
-const TARGET_WORD = "KIOSK";
 
 export function GameBoard({
                               guesses,
                               currentGuess,
                               wordLength,
                               maxGuesses,
+                              targetWord
                           }: GameBoardProps) {
     return (
         <div className="grid gap-2">
@@ -31,7 +32,7 @@ export function GameBoard({
 
                             const isSubmittedRow = rowIndex < guesses.length
                             const statuses = isSubmittedRow
-                                ? getRowStatuses(guess, TARGET_WORD)
+                                ? getRowStatuses(guess, targetWord)
                                 : []
 
                             return <Tile
