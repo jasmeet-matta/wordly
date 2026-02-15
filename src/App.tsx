@@ -155,6 +155,16 @@ function App() {
         }
     }
 
+    const lastGuess = guesses[guesses.length - 1]
+    const isGameWon = lastGuess === targetWord
+    const isGameLost = guesses.length === MAX_GUESSES && lastGuess !== targetWord
+    useEffect(() => {
+        if (isGameLost) {
+            localStorage.removeItem("word")
+        }
+    }, [isGameLost])
+
+
     return (
         <div className="min-h-dvh bg-background text-foreground flex items-center justify-center">
             <main className="w-full max-w-md px-4">
@@ -169,6 +179,25 @@ function App() {
                     maxGuesses={MAX_GUESSES}
                     targetWord={targetWord}
                 />
+                {isGameWon && (
+                    <div className="mt-4 p-3 rounded-md border border-green-500/30 bg-green-500/10 text-center">
+                        <p className="text-md uppercase tracking-wide text-green-400">
+                            You guessed it!
+                        </p>
+                    </div>
+                )}
+
+                {isGameLost && (
+                    <div className="mt-4 p-3 rounded-md border border-muted bg-muted/30 text-center">
+                        <p className="text-sm tracking-wide text-muted-foreground">
+                            The correct word was
+                        </p>
+                        <p className="text-2xl font-bold tracking-widest mt-1">
+                            {targetWord}
+                        </p>
+                    </div>
+                )}
+
                 {error && (
                     <p className="text-md text-red-400 font-medium text-center mt-2 animate">
                         {error}
@@ -178,7 +207,7 @@ function App() {
                 <Keyboard
                     onKeyPress={onKeyPress}
                     letterStatuses={letterStatuses}
-                    disableKeyboard={disableKeyboard}
+                    disableKeyboard={disableKeyboard || isGameLost}
                 />
 
             </main>
