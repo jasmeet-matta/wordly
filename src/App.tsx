@@ -8,12 +8,32 @@ import {useEffect} from "react"
 function App() {
     const WORD_LENGTH = 5
     const MAX_GUESSES = 6
+    const DIFFICULTY = 1
 
     const [guesses, setGuesses] = useState<string[]>([])
     const [currentGuess, setCurrentGuess] = useState("")
     const [error, setError] = useState<string | null>(null)
     const [disableKeyboard, setDisabledState] = useState(false)
-    const TARGET_WORD = "NIGHT";
+    const [targetWord, setTargetWord] = useState<string>("HELLO")
+
+    const storeWordLocally = (word: string) => {
+        localStorage.setItem('word', word)
+    }
+
+    const fetchWord = async (): Promise<string | null> => {
+        try {
+            const response = await axios.get(
+                `https://random-word-api.herokuapp.com/word?length=${WORD_LENGTH}&diff=${DIFFICULTY}`
+            )
+
+            const word = response.data?.[0]
+
+            return word ? word.toUpperCase() : null
+        } catch (error) {
+            console.error("Error fetching word:", error)
+            return null
+        }
+    }
 
     const isValidWord = async (word: string) => {
         try {
@@ -29,16 +49,56 @@ function App() {
     }
 
     useEffect(() => {
-        // Warm up dictionary API to avoid cold start lag
-        axios
-            .get("https://api.dictionaryapi.dev/api/v2/entries/en/hello")
-            .catch(() => {})
+        const initializeWord = async () => {
+            const storedWord = localStorage.getItem("word")
+
+            // If word already exists, use it
+            if (storedWord) {
+                setTargetWord(storedWord)
+                return
+            }
+
+            // Warm up dictionary API (cold start optimization)
+            axios
+                .get("https://api.dictionaryapi.dev/api/v2/entries/en/hello")
+                .catch(() => {})
+
+            const MAX_RETRIES = 5
+            let attempts = 0
+            let validWord: string | null = null
+
+            while (attempts < MAX_RETRIES && !validWord) {
+                const word = await fetchWord()
+
+                if (!word) {
+                    attempts++
+                    continue
+                }
+
+                const existsInDictionary = await isValidWord(word)
+
+                if (existsInDictionary) {
+                    validWord = word
+                } else {
+                    attempts++
+                }
+            }
+
+            if (validWord) {
+                setTargetWord(validWord)
+                storeWordLocally(validWord)
+            } else {
+                console.warn("Could not fetch valid dictionary word. Using fallback.")
+            }
+        }
+
+        initializeWord()
     }, [])
 
 
     const letterStatuses = guesses.reduce<Record<string, TileStatus>>(
         (acc, guess) => {
-            const statuses = getRowStatuses(guess, TARGET_WORD)
+            const statuses = getRowStatuses(guess, targetWord)
 
             guess.split("").forEach((letter, i) => {
                 const status = statuses[i]
@@ -70,7 +130,13 @@ function App() {
                 return
             }
 
-            setDisabledState(TARGET_WORD === currentGuess)
+            const isCorrect = currentGuess === targetWord
+            if (isCorrect) {
+                // Clear stored word so next reload starts fresh
+                localStorage.removeItem("word")
+            }
+
+            setDisabledState(isCorrect)
             setError(null)
             setGuesses(prev => [...prev, currentGuess])
             setCurrentGuess("")
@@ -101,7 +167,7 @@ function App() {
                     currentGuess={currentGuess}
                     wordLength={WORD_LENGTH}
                     maxGuesses={MAX_GUESSES}
-                    targetWord={TARGET_WORD}
+                    targetWord={targetWord}
                 />
                 {error && (
                     <p className="text-md text-red-400 font-medium text-center mt-2 animate">
