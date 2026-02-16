@@ -10,11 +10,15 @@ function App() {
     const MAX_GUESSES = 6
     const DIFFICULTY = 1
 
-    const [guesses, setGuesses] = useState<string[]>([])
-    const [currentGuess, setCurrentGuess] = useState("")
     const [error, setError] = useState<string | null>(null)
     const [disableKeyboard, setDisabledState] = useState(false)
     const [targetWord, setTargetWord] = useState<string>("HELLO")
+    const [currentGuess, setCurrentGuess] = useState("")
+    const [guesses, setGuesses] = useState<string[]>(() => {
+        const savedGuesses = localStorage.getItem("guesses")
+        return savedGuesses ? JSON.parse(savedGuesses) : []
+    })
+
 
     const storeWordLocally = (word: string) => {
         localStorage.setItem('word', word)
@@ -158,12 +162,19 @@ function App() {
     const lastGuess = guesses[guesses.length - 1]
     const isGameWon = lastGuess === targetWord
     const isGameLost = guesses.length === MAX_GUESSES && lastGuess !== targetWord
-    useEffect(() => {
-        if (isGameLost) {
-            localStorage.removeItem("word")
-        }
-    }, [isGameLost])
 
+    useEffect(() => {
+        if (!guesses.length) return
+
+        localStorage.setItem("guesses", JSON.stringify(guesses))
+    }, [guesses])
+
+    useEffect(() => {
+        if (!isGameWon && !isGameLost) return
+
+        localStorage.removeItem("word")
+        localStorage.removeItem("guesses")
+    }, [isGameWon, isGameLost])
 
     return (
         <div className="min-h-dvh bg-background text-foreground flex items-center justify-center">
