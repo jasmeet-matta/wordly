@@ -8,7 +8,7 @@ import {useEffect} from "react"
 function App() {
     const WORD_LENGTH = 5
     const MAX_GUESSES = 6
-    const DIFFICULTY = 1
+    const DIFFICULTY = 2
 
     const [error, setError] = useState<string | null>(null)
     const [disableKeyboard, setDisabledState] = useState(false)
