@@ -6,8 +6,8 @@ type GameBoardProps = {
     currentGuess: string
     wordLength: number
     maxGuesses: number
-    targetWord: string,
-    theme: string,
+    targetWord: string
+    theme: string
 }
 
 export function GameBoard({

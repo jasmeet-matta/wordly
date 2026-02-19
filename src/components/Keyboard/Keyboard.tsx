@@ -8,9 +8,10 @@ type KeyboardProps = {
     onKeyPress: (key: string) => void
     letterStatuses: Record<string, LetterStatus>
     disableKeyboard: boolean
+    theme: "dark" | "light" | null
 }
 
-export function Keyboard({onKeyPress, letterStatuses, disableKeyboard}: KeyboardProps) {
+export function Keyboard({onKeyPress, letterStatuses, disableKeyboard, theme}: KeyboardProps) {
     const statusStyles = {
         correct: "bg-green-500 text-white",
         present: "bg-yellow-500 text-white",
@@ -45,6 +46,7 @@ export function Keyboard({onKeyPress, letterStatuses, disableKeyboard}: Keyboard
                                     transition
                                     ${status ? statusStyles[status] : "bg-muted hover:bg-primary/10"}
                                     ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}
+                                    ${theme === "dark" && !status ? "text-white bg-zinc-600 hover:bg-white/50" : ""}
                                 `}
                             >
                                 {key}
