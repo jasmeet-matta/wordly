@@ -18,7 +18,10 @@ function App() {
         const savedGuesses = localStorage.getItem("guesses")
         return savedGuesses ? JSON.parse(savedGuesses) : []
     })
-
+    const [theme, setTheme] = useState<"light" | "dark">(() => {
+        const savedTheme = localStorage.getItem("theme")
+        return savedTheme === "dark" ? "dark" : "light"
+    })
 
     const storeWordLocally = (word: string) => {
         localStorage.setItem('word', word)
@@ -177,7 +180,23 @@ function App() {
     }, [isGameWon, isGameLost])
 
     return (
-        <div className="min-h-dvh bg-background text-foreground flex items-center justify-center">
+        <div
+            className="min-h-dvh text-foreground flex items-center justify-center transition-colors duration-300"
+            style={{
+                backgroundColor: theme === "dark" ? "#1c1d23" : "#fafafa",
+            }}
+        >
+            <button
+                onClick={() => {
+                    const newTheme = theme === "dark" ? "light" : "dark"
+                    setTheme(newTheme)
+                    localStorage.setItem("theme", newTheme)
+                }}
+                className="absolute top-4 right-4 text-2xl cursor-pointer select-none"
+            >
+                {theme === "dark" ? "☀" : "🌙"}
+            </button>
+
             <main className="w-full max-w-md px-4">
                 <h1 className="text-4xl font-bold text-center tracking-wider p-2 mb-3 text-transparent bg-clip-text bg-gradient-to-r to-amber-600 from-amber-100">
                     Wordly
@@ -189,6 +208,7 @@ function App() {
                     wordLength={WORD_LENGTH}
                     maxGuesses={MAX_GUESSES}
                     targetWord={targetWord}
+                    theme={theme}
                 />
                 {isGameWon && (
                     <div className="mt-4 p-3 rounded-md border border-green-500/30 bg-green-500/10 text-center">

@@ -6,7 +6,8 @@ type GameBoardProps = {
     currentGuess: string
     wordLength: number
     maxGuesses: number
-    targetWord: string
+    targetWord: string,
+    theme: string,
 }
 
 export function GameBoard({
@@ -14,7 +15,8 @@ export function GameBoard({
                               currentGuess,
                               wordLength,
                               maxGuesses,
-                              targetWord
+                              targetWord,
+                              theme,
                           }: GameBoardProps) {
     return (
         <div className="grid gap-2">
@@ -39,6 +41,7 @@ export function GameBoard({
                                 key={colIndex}
                                 value={letter}
                                 status={statuses[colIndex] ?? "empty"}
+                                theme={theme}
                             />
 
                         })}

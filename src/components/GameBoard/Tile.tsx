@@ -3,9 +3,10 @@ type TileStatus = "correct" | "present" | "absent" | "empty"
 type TileProps = {
     value?: string
     status?: TileStatus
+    theme?: string | null
 }
 
-export function Tile({ value = "", status = "empty" }: TileProps) {
+export function Tile({ value = "", status = "empty", theme = "" }: TileProps) {
     const base =
         "w-12 h-12 border-2 flex items-center justify-center text-xl font-bold uppercase transition"
 
@@ -17,7 +18,7 @@ export function Tile({ value = "", status = "empty" }: TileProps) {
     }
 
     return (
-        <div className={`${base} ${statusStyles[status]}`}>
+        <div className={`${base} ${statusStyles[status]} ${theme === "dark" ? "text-white border-gray-600/50" : ""}`}>
             {value}
         </div>
     )
