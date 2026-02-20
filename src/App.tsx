@@ -226,11 +226,14 @@ function App() {
                 )}
 
                 {isGameLost && (
-                    <div className="mt-4 p-3 rounded-md border border-muted bg-muted/30 text-center">
-                        <p className="text-sm tracking-wide text-muted-foreground">
+                    <div className={`mt-4 p-3 rounded-md border text-center
+                        ${theme === "dark" ? "bg-transparent/20 border-transparent/50" : "border-gray-200/70 bg-muted/80"}`}>
+                        <p className={`text-sm tracking-wide text-muted-foreground 
+                        ${theme === "dark" ? "text-amber-50/80" : ""}`}>
                             The correct word was
                         </p>
-                        <p className="text-2xl font-bold tracking-widest mt-1">
+                        <p className={`text-2xl font-bold tracking-widest mt-1 
+                        ${theme === "dark" ? "text-white" : "text-slate-800"}`}>
                             {targetWord}
                         </p>
                     </div>
