@@ -46,7 +46,7 @@ export function Keyboard({onKeyPress, letterStatuses, disableKeyboard, theme}: K
                                     transition
                                     ${status ? statusStyles[status] : "bg-muted hover:bg-primary/10"}
                                     ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}
-                                    ${theme === "dark" && !status ? "text-white bg-zinc-600 hover:bg-white/50" : ""}
+                                    ${theme === "dark" && !status ? "text-white bg-zinc-500/80 hover:bg-white/50" : ""}
                                 `}
                             >
                                 {key}
