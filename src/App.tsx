@@ -7,6 +7,7 @@ import {getRowStatuses, type TileStatus} from "@/utils/getRowStatuses"
 import {useOnlineStatus} from "@/utils/useOnlineStatus"
 import {GameBoard} from "@/components/GameBoard/GameBoard"
 import {Keyboard} from "@/components/Keyboard/Keyboard"
+import NetworkStatusBar from "@/components/NetworkStatusBar"
 
 function App() {
     const WORD_LENGTH = 5
@@ -183,10 +184,6 @@ function App() {
         localStorage.removeItem("guesses")
     }, [isGameWon, isGameLost])
 
-    useEffect(() => {
-        console.log("Online status:", isOnline)
-    }, [isOnline])
-
     return (
         <div
             className="min-h-dvh text-foreground flex items-center justify-center transition-colors duration-300"
@@ -259,6 +256,7 @@ function App() {
                 />
 
             </main>
+            <NetworkStatusBar isOnline={isOnline} />
         </div>
     )
 }
