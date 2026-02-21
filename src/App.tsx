@@ -4,6 +4,7 @@ import {useEffect} from "react"
 import {useState} from "react"
 
 import {getRowStatuses, type TileStatus} from "@/utils/getRowStatuses"
+import {useOnlineStatus} from "@/utils/useOnlineStatus"
 import {GameBoard} from "@/components/GameBoard/GameBoard"
 import {Keyboard} from "@/components/Keyboard/Keyboard"
 
@@ -12,6 +13,7 @@ function App() {
     const MAX_GUESSES = 6
     const DIFFICULTY = 1
 
+    const isOnline = useOnlineStatus()
     const [error, setError] = useState<string | null>(null)
     const [disableKeyboard, setDisabledState] = useState(false)
     const [targetWord, setTargetWord] = useState<string>("HELLO")
@@ -180,6 +182,10 @@ function App() {
         localStorage.removeItem("word")
         localStorage.removeItem("guesses")
     }, [isGameWon, isGameLost])
+
+    useEffect(() => {
+        console.log("Online status:", isOnline)
+    }, [isOnline])
 
     return (
         <div
