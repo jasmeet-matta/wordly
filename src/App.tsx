@@ -1,13 +1,14 @@
 import axios from "axios"
-import {SunIcon, MoonIcon} from "@heroicons/react/24/outline";
 import {useEffect} from "react"
 import {useState} from "react"
 
 import {getRowStatuses, type TileStatus} from "@/utils/getRowStatuses"
 import {useOnlineStatus} from "@/utils/useOnlineStatus"
 import {GameBoard} from "@/components/GameBoard/GameBoard"
+import {GameStatus} from "@/components/GameStatus/GameStatus"
 import {Keyboard} from "@/components/Keyboard/Keyboard"
 import NetworkStatusBar from "@/components/NetworkStatusBar"
+import {ThemeToggle} from "@/components/ThemeToggle/ThemeToggle"
 
 function App() {
     const WORD_LENGTH = 5
@@ -191,21 +192,7 @@ function App() {
                 backgroundColor: theme === "dark" ? "#1c1d23" : "#fafafa",
             }}
         >
-            <button
-                onClick={() => {
-                    const newTheme = theme === "dark" ? "light" : "dark"
-                    setTheme(newTheme)
-                    localStorage.setItem("theme", newTheme)
-                }}
-                className="absolute top-4 right-4 cursor-pointer select-none"
-            >
-                {theme === "dark" ? (
-                    <SunIcon className="h-6 w-6 text-yellow-400" />
-                ) : (
-                    <MoonIcon className="h-6 w-6 text-gray-800 dark:text-gray-200" />
-                )}
-            </button>
-
+            <ThemeToggle theme={theme} setTheme={setTheme} />
 
             <main className="w-full max-w-md px-4">
                 <h1 className="text-4xl font-bold text-center tracking-wider p-2 mb-3 text-transparent bg-clip-text bg-gradient-to-r to-amber-600 from-amber-100">
@@ -220,27 +207,12 @@ function App() {
                     targetWord={targetWord}
                     theme={theme}
                 />
-                {isGameWon && (
-                    <div className="mt-4 p-3 rounded-md border border-green-500/30 bg-green-500/10 text-center">
-                        <p className="text-md uppercase tracking-wide text-green-400">
-                            You guessed it!
-                        </p>
-                    </div>
-                )}
-
-                {isGameLost && (
-                    <div className={`mt-4 p-3 rounded-md border text-center
-                        ${theme === "dark" ? "bg-transparent/20 border-transparent/50" : "border-gray-200/70 bg-muted/80"}`}>
-                        <p className={`text-sm tracking-wide text-muted-foreground 
-                        ${theme === "dark" ? "text-amber-50/80" : ""}`}>
-                            The correct word was
-                        </p>
-                        <p className={`text-2xl font-bold tracking-widest mt-1 
-                        ${theme === "dark" ? "text-white" : "text-slate-800"}`}>
-                            {targetWord}
-                        </p>
-                    </div>
-                )}
+                <GameStatus
+                    isGameWon={isGameWon}
+                    isGameLost={isGameLost}
+                    targetWord={targetWord}
+                    theme={theme}
+                />
 
                 {error && (
                     <p className="text-md text-red-400 font-medium text-center mt-2 animate">
