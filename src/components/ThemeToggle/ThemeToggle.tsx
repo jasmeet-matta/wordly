@@ -15,7 +15,7 @@ export const ThemeToggle = ({ theme, setTheme }: ThemeToggleProps) => {
   return (
     <button
       onClick={toggleTheme}
-      className="absolute top-4 right-4 cursor-pointer select-none focus:outline-none"
+      className="fixed top-4 right-4 z-50 cursor-pointer select-none focus:outline-none"
       aria-label="Toggle dark mode"
     >
       {theme === "dark" ? (

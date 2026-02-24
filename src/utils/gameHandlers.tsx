@@ -1,7 +1,7 @@
 import axios from "axios";
 import {fetchWord, isValidWord, storeWordLocally, MAX_GUESSES} from "./wordService";
 
-export const initializeWordTask = async (
+export const  initializeWordTask = async (
     setTargetWord: (word: string) => void,
     wordLength: number
 ) => {
