@@ -1,13 +1,14 @@
 import axios from "axios";
-import {fetchWord, isValidWord, storeWordLocally, WORD_LENGTH, MAX_GUESSES} from "./wordService";
+import {fetchWord, isValidWord, storeWordLocally, MAX_GUESSES} from "./wordService";
 
 export const initializeWordTask = async (
-    setTargetWord: (word: string) => void
+    setTargetWord: (word: string) => void,
+    wordLength: number
 ) => {
     const storedWord = localStorage.getItem("word");
 
-    // If word already exists, use it
-    if (storedWord) {
+    // If word already exists and has correct length, use it
+    if (storedWord && storedWord.length === wordLength) {
         setTargetWord(storedWord);
         return;
     }
@@ -23,7 +24,7 @@ export const initializeWordTask = async (
     let validWord: string | null = null;
 
     while (attempts < MAX_RETRIES && !validWord) {
-        const word = await fetchWord();
+        const word = await fetchWord(wordLength);
 
         if (!word) {
             attempts++;
@@ -52,6 +53,7 @@ interface KeyPressParams {
     currentGuess: string;
     guesses: string[];
     targetWord: string;
+    wordLength: number;
     setCurrentGuess: (guess: string | ((prev: string) => string)) => void;
     setGuesses: (guesses: string[] | ((prev: string[]) => string[])) => void;
     setError: (error: string | null) => void;
@@ -63,13 +65,14 @@ export const handleKeyPress = async ({
                                          currentGuess,
                                          guesses,
                                          targetWord,
+                                         wordLength,
                                          setCurrentGuess,
                                          setGuesses,
                                          setError,
                                          setDisabledState,
                                      }: KeyPressParams) => {
     if (key === "ENTER") {
-        if (currentGuess.length !== WORD_LENGTH) return;
+        if (currentGuess.length !== wordLength) return;
         if (guesses.length >= MAX_GUESSES) return;
         setDisabledState(true);
 
@@ -100,7 +103,7 @@ export const handleKeyPress = async ({
         return;
     }
 
-    if (currentGuess.length < WORD_LENGTH) {
+    if (currentGuess.length < wordLength) {
         setError(null);
         setCurrentGuess((prev) => (prev + key));
     }

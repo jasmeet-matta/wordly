@@ -3,19 +3,24 @@ import {useState} from "react"
 
 import {getRowStatuses, type TileStatus} from "@/utils/getRowStatuses"
 import {useOnlineStatus} from "@/utils/useOnlineStatus"
-import {WORD_LENGTH, MAX_GUESSES} from "@/utils/wordService"
+import {MAX_GUESSES} from "@/utils/wordService"
 import {initializeWordTask, handleKeyPress} from "@/utils/gameHandlers"
 import {GameBoard} from "@/components/GameBoard/GameBoard"
 import {GameStatus} from "@/components/GameStatus/GameStatus"
 import {Keyboard} from "@/components/Keyboard/Keyboard"
 import NetworkStatusBar from "@/components/NetworkStatusBar"
 import {ThemeToggle} from "@/components/ThemeToggle/ThemeToggle"
+import {SideMenu} from "@/components/SideMenu/SideMenu"
 
 function App() {
 
     const isOnline = useOnlineStatus()
     const [error, setError] = useState<string | null>(null)
     const [disableKeyboard, setDisabledState] = useState(false)
+    const [wordLength, setWordLength] = useState<number>(() => {
+        const saved = localStorage.getItem("wordLength")
+        return saved ? parseInt(saved) : 5
+    })
     const [targetWord, setTargetWord] = useState<string>("HELLO")
     const [currentGuess, setCurrentGuess] = useState("")
     const [guesses, setGuesses] = useState<string[]>(() => {
@@ -28,8 +33,21 @@ function App() {
     })
 
     useEffect(() => {
-        initializeWordTask(setTargetWord)
-    }, [])
+        localStorage.setItem("wordLength", wordLength.toString())
+        
+        const storedWord = localStorage.getItem("word")
+        if (storedWord && storedWord.length !== wordLength) {
+            localStorage.removeItem("word")
+            localStorage.removeItem("guesses")
+            // Use setTimeout to avoid synchronous setState in effect (linting requirement)
+            setTimeout(() => {
+                setGuesses([])
+                setCurrentGuess("")
+            }, 0)
+        }
+        
+        initializeWordTask(setTargetWord, wordLength)
+    }, [wordLength])
 
 
     const letterStatuses = guesses.reduce<Record<string, TileStatus>>(
@@ -59,6 +77,7 @@ function App() {
             currentGuess,
             guesses,
             targetWord,
+            wordLength,
             setCurrentGuess,
             setGuesses,
             setError,
@@ -90,6 +109,7 @@ function App() {
                 backgroundColor: theme === "dark" ? "#1c1d23" : "#fafafa",
             }}
         >
+            <SideMenu wordLength={wordLength} setWordLength={setWordLength} theme={theme} />
             <ThemeToggle theme={theme} setTheme={setTheme} />
 
             <main className="w-full max-w-md px-4">
@@ -100,7 +120,7 @@ function App() {
                 <GameBoard
                     guesses={guesses}
                     currentGuess={currentGuess}
-                    wordLength={WORD_LENGTH}
+                    wordLength={wordLength}
                     maxGuesses={MAX_GUESSES}
                     targetWord={targetWord}
                     theme={theme}

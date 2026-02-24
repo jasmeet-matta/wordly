@@ -14,19 +14,27 @@ export default function NetworkStatusBar({isOnline}: Props) {
 
         prevOnline.current = isOnline
 
-        setShowSnackbar(true)
-
         if (!isOnline && "vibrate" in navigator) {
             navigator.vibrate([100, 50, 100])
         }
+
+        // Use setTimeout to avoid synchronous setState in effect (linting requirement)
+        const snackbarTimer = setTimeout(() => {
+            setShowSnackbar(true)
+        }, 0)
 
         if (isOnline) {
             const timer = setTimeout(() => {
                 setShowSnackbar(false)
             }, 2000)
 
-            return () => clearTimeout(timer)
+            return () => {
+                clearTimeout(snackbarTimer)
+                clearTimeout(timer)
+            }
         }
+        
+        return () => clearTimeout(snackbarTimer)
     }, [isOnline])
 
     return (

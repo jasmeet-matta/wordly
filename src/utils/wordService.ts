@@ -1,6 +1,5 @@
 import axios from "axios";
 
-export const WORD_LENGTH = 5;
 export const MAX_GUESSES = 6;
 export const DIFFICULTY = 1;
 
@@ -8,10 +7,10 @@ export const storeWordLocally = (word: string) => {
     localStorage.setItem("word", word);
 };
 
-export const fetchWord = async (): Promise<string | null> => {
+export const fetchWord = async (wordLength: number): Promise<string | null> => {
     try {
         const response = await axios.get(
-            `https://random-word-api.herokuapp.com/word?length=${WORD_LENGTH}&diff=${DIFFICULTY}`
+            `https://random-word-api.herokuapp.com/word?length=${wordLength}&diff=${DIFFICULTY}`
         );
 
         const word = response.data?.[0];
