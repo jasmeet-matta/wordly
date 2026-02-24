@@ -1,9 +1,10 @@
-import axios from "axios"
 import {useEffect} from "react"
 import {useState} from "react"
 
 import {getRowStatuses, type TileStatus} from "@/utils/getRowStatuses"
 import {useOnlineStatus} from "@/utils/useOnlineStatus"
+import {WORD_LENGTH, MAX_GUESSES} from "@/utils/wordService"
+import {initializeWordTask, handleKeyPress} from "@/utils/gameHandlers"
 import {GameBoard} from "@/components/GameBoard/GameBoard"
 import {GameStatus} from "@/components/GameStatus/GameStatus"
 import {Keyboard} from "@/components/Keyboard/Keyboard"
@@ -11,9 +12,6 @@ import NetworkStatusBar from "@/components/NetworkStatusBar"
 import {ThemeToggle} from "@/components/ThemeToggle/ThemeToggle"
 
 function App() {
-    const WORD_LENGTH = 5
-    const MAX_GUESSES = 6
-    const DIFFICULTY = 1
 
     const isOnline = useOnlineStatus()
     const [error, setError] = useState<string | null>(null)
@@ -29,83 +27,8 @@ function App() {
         return savedTheme === "dark" ? "dark" : "light"
     })
 
-    const storeWordLocally = (word: string) => {
-        localStorage.setItem('word', word)
-    }
-
-    const fetchWord = async (): Promise<string | null> => {
-        try {
-            const response = await axios.get(
-                `https://random-word-api.herokuapp.com/word?length=${WORD_LENGTH}&diff=${DIFFICULTY}`
-            )
-
-            const word = response.data?.[0]
-
-            return word ? word.toUpperCase() : null
-        } catch (error) {
-            console.error("Error fetching word:", error)
-            return null
-        }
-    }
-
-    const isValidWord = async (word: string) => {
-        try {
-            const res = await axios.get(
-                `https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`
-            )
-            setDisabledState(false);
-            return res.status === 200
-        } catch {
-            setDisabledState(false);
-            return false
-        }
-    }
-
     useEffect(() => {
-        const initializeWord = async () => {
-            const storedWord = localStorage.getItem("word")
-
-            // If word already exists, use it
-            if (storedWord) {
-                setTargetWord(storedWord)
-                return
-            }
-
-            // Warm up dictionary API (cold start optimization)
-            axios
-                .get("https://api.dictionaryapi.dev/api/v2/entries/en/hello")
-                .catch(() => {})
-
-            const MAX_RETRIES = 5
-            let attempts = 0
-            let validWord: string | null = null
-
-            while (attempts < MAX_RETRIES && !validWord) {
-                const word = await fetchWord()
-
-                if (!word) {
-                    attempts++
-                    continue
-                }
-
-                const existsInDictionary = await isValidWord(word)
-
-                if (existsInDictionary) {
-                    validWord = word
-                } else {
-                    attempts++
-                }
-            }
-
-            if (validWord) {
-                setTargetWord(validWord)
-                storeWordLocally(validWord)
-            } else {
-                console.warn("Could not fetch valid dictionary word. Using fallback.")
-            }
-        }
-
-        initializeWord()
+        initializeWordTask(setTargetWord)
     }, [])
 
 
@@ -130,42 +53,17 @@ function App() {
         {}
     )
 
-    const onKeyPress = async (key: string) => {
-        if (key === "ENTER") {
-            if (currentGuess.length !== WORD_LENGTH) return
-            if (guesses.length >= MAX_GUESSES) return
-            setDisabledState(true)
-
-            const valid = await isValidWord(currentGuess)
-
-            if (!valid) {
-                setError("Not a valid word")
-                return
-            }
-
-            const isCorrect = currentGuess === targetWord
-            if (isCorrect) {
-                // Clear stored word so next reload starts fresh
-                localStorage.removeItem("word")
-            }
-
-            setDisabledState(isCorrect)
-            setError(null)
-            setGuesses(prev => [...prev, currentGuess])
-            setCurrentGuess("")
-            return
-        }
-
-        if (key === "⌫") {
-            setCurrentGuess((prev) => prev.slice(0, -1))
-            setError(null)
-            return
-        }
-
-        if (currentGuess.length < WORD_LENGTH) {
-            setError(null)
-            setCurrentGuess((prev) => prev + key)
-        }
+    const onKeyPress = (key: string) => {
+        handleKeyPress({
+            key,
+            currentGuess,
+            guesses,
+            targetWord,
+            setCurrentGuess,
+            setGuesses,
+            setError,
+            setDisabledState
+        })
     }
 
     const lastGuess = guesses[guesses.length - 1]
