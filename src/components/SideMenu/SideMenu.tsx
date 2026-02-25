@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X } from 'lucide-react';
+import React, {useState, useEffect, useRef} from 'react';
+import {Menu, X} from 'lucide-react';
 
 interface SideMenuProps {
     wordLength: number;

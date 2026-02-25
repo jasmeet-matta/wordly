@@ -19,13 +19,13 @@ export function GameBoard({
                               theme,
                           }: GameBoardProps) {
     return (
-        <div className="grid gap-2">
+        <div className="grid gap-2 sm:gap-3">
             {Array.from({length: maxGuesses}).map((_, rowIndex) => {
                 const guess = guesses[rowIndex] ?? ""
                 const isCurrentRow = rowIndex === guesses.length
 
                 return (
-                    <div key={rowIndex} className="flex gap-2 justify-center">
+                    <div key={rowIndex} className="flex gap-2 sm:gap-3 justify-center">
                         {Array.from({length: wordLength}).map((_, colIndex) => {
                             const letter =
                                 isCurrentRow

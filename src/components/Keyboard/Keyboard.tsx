@@ -19,7 +19,7 @@ export function Keyboard({onKeyPress, letterStatuses, disableKeyboard, theme}: K
     }
 
     return (
-        <div className="mt-5 space-y-2">
+        <div className="mt-5 space-y-2 w-full max-w-2xl">
             {ROWS.map((row, rowIndex) => (
                 <div
                     key={rowIndex}
@@ -39,10 +39,10 @@ export function Keyboard({onKeyPress, letterStatuses, disableKeyboard, theme}: K
                                     onKeyPress(key)
                                 }}
                                 className={`
-                                    h-12
+                                    h-12 sm:h-16
                                     ${isSpecialKey ? "flex-[1.5]" : "flex-1"}
                                     rounded-md
-                                    text-xs font-bold
+                                    text-xs sm:text-sm font-bold
                                     transition
                                     ${status ? statusStyles[status] : "bg-muted hover:bg-primary/10"}
                                     ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}

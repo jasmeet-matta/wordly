@@ -112,8 +112,8 @@ function App() {
             <SideMenu wordLength={wordLength} setWordLength={setWordLength} theme={theme} />
             <ThemeToggle theme={theme} setTheme={setTheme} />
 
-            <main className="w-full max-w-md px-4">
-                <h1 className="text-4xl font-bold text-center tracking-wider p-2 mb-3 text-transparent bg-clip-text bg-gradient-to-r to-amber-600 from-amber-100">
+            <main className="w-full max-w-lg px-4 flex flex-col items-center">
+                <h1 className="text-4xl sm:text-5xl font-bold text-center tracking-wider p-2 mb-3 sm:mb-6 text-transparent bg-clip-text bg-gradient-to-r to-amber-600 from-amber-200">
                     Wordly
                 </h1>
 
