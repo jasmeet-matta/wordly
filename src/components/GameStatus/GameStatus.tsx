@@ -13,8 +13,8 @@ export const GameStatus = ({
 }: GameStatusProps) => {
   if (isGameWon) {
     return (
-      <div className="mt-4 p-3 rounded-md border border-green-500/30 bg-green-500/10 text-center">
-        <p className="text-md uppercase tracking-wide text-green-400">
+      <div className="mt-4 p-4 sm:p-6 w-full rounded-md border border-green-500/30 bg-green-500/10 text-center">
+        <p className="text-lg sm:text-xl uppercase font-bold tracking-widest text-green-400">
           You guessed it!
         </p>
       </div>
@@ -24,7 +24,7 @@ export const GameStatus = ({
   if (isGameLost) {
     return (
       <div
-        className={`mt-4 p-3 rounded-md border text-center
+        className={`mt-4 p-4 sm:p-6 w-full rounded-md border text-center
                         ${
                           theme === "dark"
                             ? "bg-transparent/20 border-transparent/50"
@@ -32,13 +32,13 @@ export const GameStatus = ({
                         }`}
       >
         <p
-          className={`text-sm tracking-wide text-muted-foreground 
+          className={`text-base sm:text-lg tracking-wide text-muted-foreground 
                         ${theme === "dark" ? "text-amber-50/80" : ""}`}
         >
           The correct word was
         </p>
         <p
-          className={`text-2xl font-bold tracking-widest mt-1 
+          className={`text-3xl sm:text-4xl font-extrabold tracking-widest mt-2 
                         ${theme === "dark" ? "text-white" : "text-slate-800"}`}
         >
           {targetWord}
