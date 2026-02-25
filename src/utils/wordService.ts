@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const MAX_GUESSES = 6;
+export const MAX_GUESSES = 1;
 export const DIFFICULTY = 1;
 
 export const storeWordLocally = (word: string) => {
