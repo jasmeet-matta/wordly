@@ -38,7 +38,7 @@ export const GameStatus = ({
           The correct word was
         </p>
         <p
-          className={`text-3xl sm:text-4xl font-extrabold tracking-widest mt-2 
+          className={`text-3xl sm:text-3xl font-extrabold tracking-widest mt-2 
                         ${theme === "dark" ? "text-white" : "text-slate-800"}`}
         >
           {targetWord}

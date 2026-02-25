@@ -19,7 +19,7 @@ export function Keyboard({onKeyPress, letterStatuses, disableKeyboard, theme}: K
     }
 
     return (
-        <div className="mt-10 space-y-2 w-full max-w-2xl">
+        <div className="mt-6 space-y-2 w-full max-w-2xl">
             {ROWS.map((row, rowIndex) => (
                 <div
                     key={rowIndex}
