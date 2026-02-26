@@ -8,7 +8,7 @@ type TileProps = {
 
 export function Tile({ value = "", status = "empty", theme = "" }: TileProps) {
     const base =
-        "w-14 h-14 sm:w-16 sm:h-16 border-2 flex items-center justify-center text-2xl sm:text-2xl font-bold uppercase transition"
+        "w-14 h-14 sm:w-14 sm:h-14 border-2 flex items-center justify-center text-2xl sm:text-2xl font-bold uppercase transition"
 
     const statusStyles = {
         empty: "border-zinc-200/60",
