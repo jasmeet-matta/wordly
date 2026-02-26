@@ -45,6 +45,12 @@ export const  initializeWordTask = async (
         storeWordLocally(validWord);
     } else {
         console.warn("Could not fetch valid dictionary word. Using fallback.");
+        let fallbackWord = "HELLO";
+        if (wordLength === 4) fallbackWord = "GROW";
+        else if (wordLength === 6) fallbackWord = "BIKERS";
+
+        setTargetWord(fallbackWord);
+        storeWordLocally(fallbackWord);
     }
 };
 
