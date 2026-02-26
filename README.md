@@ -1,73 +1,53 @@
-# React + TypeScript + Vite
+# 🧩 Wordly
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to **Wordly**, a sleek and responsive word-guessing game built with React and TypeScript. It's inspired by the classic Wordle but comes with extra features to make the experience even better! 🚀
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+*   **📏 Dynamic Word Lengths**: Feeling like a quick game? Go for **4 letters**. Want a challenge? Try **6 letters**! You can change this anytime from the side menu.
+*   **🌓 Dark Mode Support**: Save your eyes with a beautiful dark theme, or stick to the crisp light mode. Your preference is saved automatically!
+*   **📡 Offline-Ready**: Play without worries! The app detects your connection status and alerts you with a snackbar and a subtle vibration 📳 when you go offline.
+*   **📱 Mobile Optimized**: Designed as a PWA-friendly experience. No weird scrolling, no accidental zooms—just pure gameplay that feels like a native app.
+*   **🧠 Smart Dictionary Validation**: Every word you guess is checked against a real dictionary API. No "cheating" with random letters!
+*   **💾 Persistent Game State**: Close your browser mid-game? No problem! Your guesses and settings are saved in local storage so you can pick up right where you left off.
+*   **🛡️ Robust Fallbacks**: Even if the word APIs are down, the game won't stop. We've got curated fallback words to keep the fun going.
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+*   **React 18** + **TypeScript** ⚛️
+*   **Vite** (for blazing fast builds) ⚡
+*   **Tailwind CSS** (for styling) 🎨
+*   **Lucide React** & **Heroicons** (for beautiful icons) ✨
+*   **Axios** (for API communications) 🌐
 
-## Expanding the ESLint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1.  **Clone the repo**:
+    ```bash
+    git clone https://github.com/your-username/wordly.git
+    ```
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
+3.  **Run the development server**:
+    ```bash
+    npm run dev
+    ```
+4.  **Build for production**:
+    ```bash
+    npm run build
+    ```
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🎮 How to Play
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1.  Enter your guess using the on-screen keyboard.
+2.  Press **ENTER** to submit.
+3.  The tiles will change color to give you hints:
+    *   🟩 **Green**: Correct letter, correct spot!
+    *   🟨 **Yellow**: Correct letter, wrong spot.
+    *   ⬛ **Gray**: Letter not in the word.
+4.  You have **6 tries** to guess the target word. Good luck! 🍀
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+Built with ❤️ for word game enthusiasts.
