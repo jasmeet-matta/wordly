@@ -24,7 +24,7 @@ Welcome to **Wordly**, a sleek and responsive word-guessing game built with Reac
 
 1.  **Clone the repo**:
     ```bash
-    git clone https://github.com/your-username/wordly.git
+    git clone https://github.com/jasmeet-matta/wordly.git
     ```
 2.  **Install dependencies**:
     ```bash
