@@ -104,7 +104,7 @@ function App() {
 
     return (
         <div
-            className="h-dvh w-full text-foreground flex items-center justify-center transition-colors duration-300 relative overflow-hidden"
+            className="h-dvh w-full text-foreground flex items-center justify-center transition-colors duration-300 relative"
             style={{
                 backgroundColor: theme === "dark" ? "#1c1d23" : "#fafafa",
             }}
@@ -112,8 +112,8 @@ function App() {
             <SideMenu wordLength={wordLength} setWordLength={setWordLength} theme={theme} />
             <ThemeToggle theme={theme} setTheme={setTheme} />
 
-            <main className="w-full max-w-lg px-4 flex flex-col items-center justify-center py-4 h-full">
-                <h1 className="text-3xl sm:text-5xl font-bold text-center tracking-wider p-2 mb-2 sm:mb-6 text-transparent bg-clip-text bg-gradient-to-r to-amber-600 from-amber-200">
+            <main className="w-full max-w-lg px-4 flex flex-col items-center justify-center py-8">
+                <h1 className="text-4xl sm:text-5xl font-bold text-center tracking-wider p-2 mb-3 sm:mb-6 text-transparent bg-clip-text bg-gradient-to-r to-amber-600 from-amber-200">
                     Wordly
                 </h1>
 
