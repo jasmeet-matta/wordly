@@ -104,7 +104,7 @@ function App() {
 
     return (
         <div
-            className="h-dvh w-full overflow-hidden text-foreground flex items-center justify-center transition-colors duration-300 relative"
+            className="h-dvh w-full text-foreground flex items-center justify-center transition-colors duration-300 relative"
             style={{
                 backgroundColor: theme === "dark" ? "#1c1d23" : "#fafafa",
             }}
