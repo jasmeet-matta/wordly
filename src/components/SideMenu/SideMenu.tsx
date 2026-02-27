@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {Menu, X} from 'lucide-react';
+import {Menu, X, GithubIcon} from 'lucide-react';
 
 interface SideMenuProps {
     wordLength: number;
@@ -103,6 +103,19 @@ export const SideMenu: React.FC<SideMenuProps> = ({ wordLength, setWordLength, t
                 <div className="absolute bottom-8 left-6 right-6 opacity-40 text-xs italic">
                     Wordly v1.0.0
                 </div>
+                <a
+                    href="https://github.com/jasmeet-matta/wordly"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`p-2 absolute bottom-6 right-6 ${theme === 'dark' ? "bg-zinc-700" : "bg-gray-200"} rounded-full transition-colors duration-200`}
+                    style={{
+                        color: theme === 'dark' ? '#f3f4f6' : '#1f2937'
+                    }}
+                    aria-label="Open GitHub"
+                >
+                    <GithubIcon size={24} />
+                </a>
+
             </div>
         </>
     );
