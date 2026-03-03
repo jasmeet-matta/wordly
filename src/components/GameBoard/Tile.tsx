@@ -1,3 +1,5 @@
+import {useState, useEffect, useRef} from 'react';
+
 type TileStatus = "correct" | "present" | "absent" | "empty"
 
 type TileProps = {
@@ -7,8 +9,21 @@ type TileProps = {
 }
 
 export function Tile({ value = "", status = "empty", theme = "" }: TileProps) {
-    const base =
-        "w-12 h-12 sm:w-16 sm:h-16 border-2 flex items-center justify-center text-xl sm:text-2xl font-bold uppercase transition"
+    const base = "w-12 h-12 sm:w-16 sm:h-16 border-2 flex items-center justify-center text-xl sm:text-2xl font-bold uppercase transition transition-transform duration-200 ease-in-out";
+    const [isPopping, setPopping] = useState(false);
+    const previousValue = useRef<string | null>(value)
+
+    useEffect(() => {
+        let timer: ReturnType<typeof setTimeout> | undefined
+        if (status === "empty" && previousValue.current === "" && value !== ""){
+            queueMicrotask(() => setPopping(true))
+            timer = setTimeout(() => setPopping(false), 100);
+        }
+        previousValue.current = value;
+        if (timer) {
+            return () => clearTimeout(timer);
+        }
+    }, [value, status]);
 
     const statusStyles = {
         empty: "border-zinc-200/60",
@@ -18,7 +33,11 @@ export function Tile({ value = "", status = "empty", theme = "" }: TileProps) {
     }
 
     return (
-        <div className={`${base} ${statusStyles[status]} ${theme === "dark" ? "text-white border-gray-600/50" : ""}`}>
+        <div className={`
+            ${base} ${statusStyles[status]} 
+            ${theme === "dark" ? "text-white border-gray-600/50" : ""}
+            ${isPopping ? "scale-110" : "scale-100"}
+            `}>
             {value}
         </div>
     )

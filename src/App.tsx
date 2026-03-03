@@ -46,7 +46,7 @@ function App() {
             }, 0)
         }
         
-        initializeWordTask(setTargetWord, wordLength)
+        void initializeWordTask(setTargetWord, wordLength)
     }, [wordLength])
 
 
@@ -72,7 +72,7 @@ function App() {
     )
 
     const onKeyPress = (key: string) => {
-        handleKeyPress({
+        void handleKeyPress({
             key,
             currentGuess,
             guesses,
