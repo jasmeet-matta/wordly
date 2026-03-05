@@ -101,7 +101,7 @@ export const SideMenu: React.FC<SideMenuProps> = ({ wordLength, setWordLength, t
                 </div>
                 
                 <div className="absolute bottom-8 left-6 right-6 opacity-40 text-xs italic">
-                    Wordly v1.0.1
+                    Wordly v1.1.0
                 </div>
                 <a
                     href="https://github.com/jasmeet-matta/wordly"

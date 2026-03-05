@@ -106,7 +106,7 @@ function App() {
         <div
             className="min-h-dvh w-full text-foreground flex items-center justify-center transition-colors duration-300 relative"
             style={{
-                backgroundColor: theme === "dark" ? "#1c1d23" : "#fafafa",
+                backgroundColor: theme === "dark" ? "#17171c" : "#fafafa",
             }}
         >
             <SideMenu wordLength={wordLength} setWordLength={setWordLength} theme={theme} />
