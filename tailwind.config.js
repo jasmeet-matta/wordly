@@ -53,7 +53,19 @@ export default {
     				'4': 'hsl(var(--chart-4))',
     				'5': 'hsl(var(--chart-5))'
     			}
-    		}
+    		},
+            keyframes: {
+                shake: {
+                    '0%, 100%': { transform: 'translateX(0)' },
+                    '25%': { transform: 'translateX(-10px)' },
+                    '50%': { transform: 'translateX(10px)' },
+                    '75%': { transform: 'translateX(-10px)' },
+                    '100%': { transform: 'translateX(10px)' },
+                },
+            },
+            animation: {
+                shake: 'shake 0.3s ease-in-out',
+            },
     	}
     },
     plugins: [require("tailwindcss-animate")],

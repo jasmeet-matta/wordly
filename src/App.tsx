@@ -113,7 +113,7 @@ function App() {
             <ThemeToggle theme={theme} setTheme={setTheme} />
 
             <main className="w-full max-w-lg px-4 flex flex-col items-center justify-center py-8">
-                <h1 className="text-4xl sm:text-5xl font-bold text-center tracking-wider p-2 mb-3 sm:mb-6 text-transparent bg-clip-text bg-gradient-to-r to-amber-600 from-amber-200">
+                <h1 className="text-4xl sm:text-5xl font-bold text-center tracking-wider p-2 mb-3 sm:mb-6 text-transparent bg-clip-text bg-gradient-to-r to-amber-500 from-amber-200">
                     Wordly
                 </h1>
 
@@ -124,6 +124,7 @@ function App() {
                     maxGuesses={MAX_GUESSES}
                     targetWord={targetWord}
                     theme={theme}
+                    invalidWord={!!error}
                 />
                 <GameStatus
                     isGameWon={isGameWon}
