@@ -1,3 +1,4 @@
+import confetti from "canvas-confetti"
 import {useEffect} from "react"
 import {useState} from "react"
 
@@ -96,11 +97,28 @@ function App() {
     }, [guesses])
 
     useEffect(() => {
-        if (!isGameWon && !isGameLost) return
+        if (!isGameWon && !isGameLost) return;
 
-        localStorage.removeItem("word")
-        localStorage.removeItem("guesses")
-    }, [isGameWon, isGameLost])
+        if (isGameWon) {
+            confetti({
+                particleCount: 120,
+                spread: 90,
+                origin: { y: 0.6 },
+                colors: [
+                    '#ff595e', // bright red
+                    '#ffca3a', // vibrant yellow
+                    '#8ac926', // lively green
+                    '#1982c4', // bold blue
+                    '#6a4c93'  // rich purple
+                ],
+                scalar: 1.1,
+                shapes: ['circle', 'square']
+            });
+        }
+
+        localStorage.removeItem("word");
+        localStorage.removeItem("guesses");
+    }, [isGameWon, isGameLost]);
 
     return (
         <div
