@@ -133,12 +133,6 @@ function App() {
                     theme={theme}
                 />
 
-                {error && (
-                    <p className="text-md text-red-400 font-medium text-center mt-2 animate">
-                        {error}
-                    </p>
-                )}
-
                 <Keyboard
                     onKeyPress={onKeyPress}
                     letterStatuses={letterStatuses}

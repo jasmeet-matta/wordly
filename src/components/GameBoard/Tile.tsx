@@ -6,9 +6,10 @@ type TileProps = {
     value?: string
     status?: TileStatus
     theme?: string | null
+    error?: boolean
 }
 
-export function Tile({ value = "", status = "empty", theme = "" }: TileProps) {
+export function Tile({ value = "", status = "empty", theme = "", error = false}: TileProps) {
     const base = "w-12 h-12 sm:w-16 sm:h-16 border-2 flex items-center justify-center text-xl sm:text-2xl font-bold uppercase transition transition-transform duration-200 ease-in-out";
     const [isPopping, setPopping] = useState(false);
     const previousValue = useRef<string | null>(value)
@@ -37,6 +38,7 @@ export function Tile({ value = "", status = "empty", theme = "" }: TileProps) {
             ${base} ${statusStyles[status]} 
             ${theme === "dark" ? "text-white border-gray-600/50" : ""}
             ${isPopping ? "scale-110" : "scale-100"}
+            ${error ? "!border-red-300/80" : ""}
             `}>
             {value}
         </div>

@@ -29,6 +29,8 @@ export function GameBoard({
         const rowIndex = guesses.length
         queueMicrotask(() => {
             setShakeRow(rowIndex)
+            navigator?.vibrate([100, 50, 100]);
+
         })
         const timer = setTimeout(() => setShakeRow(null), 400)
         return () => clearTimeout(timer)
@@ -61,6 +63,7 @@ export function GameBoard({
                                 value={letter}
                                 status={statuses[colIndex] ?? "empty"}
                                 theme={theme}
+                                error={shakeRow === rowIndex}
                             />
 
                         })}
