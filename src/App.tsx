@@ -101,8 +101,8 @@ function App() {
 
         if (isGameWon) {
             confetti({
-                particleCount: 120,
-                spread: 90,
+                particleCount: 100,
+                spread: 60,
                 origin: { y: 0.6 },
                 colors: [
                     '#ff595e', // bright red
