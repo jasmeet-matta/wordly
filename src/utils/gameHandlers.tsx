@@ -7,7 +7,7 @@ export const  initializeWordTask = async (
 ) => {
     const storedWord = localStorage.getItem("word");
 
-    // If word already exists and has correct length, use it
+    // If the word already exists and has the correct length, use it
     if (storedWord && storedWord.length === wordLength) {
         setTargetWord(storedWord);
         return;
@@ -92,7 +92,7 @@ export const handleKeyPress = async ({
 
         const isCorrect = currentGuess === targetWord;
         if (isCorrect) {
-            // Clear stored word so next reload starts fresh
+            // Clear stored word so the next reload starts fresh
             localStorage.removeItem("word");
         }
 

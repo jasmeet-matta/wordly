@@ -120,6 +120,25 @@ function App() {
         localStorage.removeItem("guesses");
     }, [isGameWon, isGameLost]);
 
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (disableKeyboard || isGameWon || isGameLost) return;
+
+            const key = e.key.toUpperCase();
+
+            if (key === 'ENTER') {
+                onKeyPress('ENTER');
+            } else if (key === 'BACKSPACE') {
+                onKeyPress('⌫');
+            } else if (/^[A-Z]$/.test(key)) {
+                onKeyPress(key);
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [onKeyPress, disableKeyboard, isGameWon, isGameLost]);
+
     return (
         <div
             className="min-h-dvh w-full text-foreground flex items-center justify-center transition-colors duration-300 relative"
